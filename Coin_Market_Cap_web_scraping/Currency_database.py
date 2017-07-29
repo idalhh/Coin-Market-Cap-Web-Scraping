@@ -106,7 +106,6 @@ class Currency_database():
             "  `Percent_7d` DECIMAL(10,2) NULL,"
             "  `Updated_time` DATETIME NULL,"
             "  `Collection_time` DATETIME NULL,"
-            "  `Test_unique` VARCHAR(200) NULL,"
             "  PRIMARY KEY (`id`)"
             ") ENGINE=InnoDB")
 
@@ -123,7 +122,6 @@ class Currency_database():
             "  `Volume_percent` DECIMAL(5,2) NULL,"
             "  `Updated_time` DATETIME NULL,"
             "  `Collection_time` DATETIME NULL,"
-            "  `Test_unique` VARCHAR(200) NULL,"
             "  PRIMARY KEY (`id`)"
             ") ENGINE=InnoDB")
 
@@ -140,7 +138,6 @@ class Currency_database():
             "  `Volume_percent` DECIMAL(5,2) NULL,"
             "  `Updated_time` DATETIME NULL,"
             "  `Collection_time` DATETIME NULL,"
-            "  `Test_unique` VARCHAR(200) NULL,"
             "  PRIMARY KEY (`id`)"
             ") ENGINE=InnoDB")
         
@@ -164,38 +161,23 @@ class Currency_database():
                 print("Table {} Created.".format(table_key))
 
     def insert_data_into_All_Currencies(self, data):
-        insertion_format = ("INSERT INTO All_Currencies (Ranking, Name, Symbol, Market_cap, Price, Circulating_supply, Volume_24h, Percent_1h, Percent_24h, Percent_7d, Updated_time, Collection_time, Test_unique)"
-                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+        insertion_format = ("INSERT INTO All_Currencies (Ranking, Name, Symbol, Market_cap, Price, Circulating_supply, Volume_24h, Percent_1h, Percent_24h, Percent_7d, Updated_time, Collection_time)"
+                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
         
         self.db_cursor.execute(insertion_format, data)
         self.Mysql_instance.commit()
 
 
     def insert_data_into_24HVR_by_Exchange(self, data):
-        insertion_format = ("INSERT INTO 24HVR_by_Exchange (Market, Market_ranking, Ranking, Currency, Pair, Volume_24h, Price, Volume_percent, Updated_time, Collection_time, Test_unique)"
-                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+        insertion_format = ("INSERT INTO 24HVR_by_Exchange (Market, Market_ranking, Ranking, Currency, Pair, Volume_24h, Price, Volume_percent, Updated_time, Collection_time)"
+                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
         
         self.db_cursor.execute(insertion_format, data)
         self.Mysql_instance.commit()
 
 
     def insert_data_into_24HVR_by_Currency(self, data):
-        insertion_format = ("INSERT INTO 24HVR_by_Currency (Currency, Currency_ranking, Ranking, Source, Pair, Volume_24h, Price, Volume_percent, Updated_time, Collection_time, Test_unique)"
-                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+        insertion_format = ("INSERT INTO 24HVR_by_Currency (Currency, Currency_ranking, Ranking, Source, Pair, Volume_24h, Price, Volume_percent, Updated_time, Collection_time)"
+                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
         self.db_cursor.execute(insertion_format, data)
         self.Mysql_instance.commit()
-
-    def currency_exists_in_All_Currencies(self, data):
-        select_format = ("SELECT COUNT(1) FROM All_Currencies WHERE Test_unique = %s")
-        self.db_cursor.execute(select_format, (data,))
-        return self.db_cursor.fetchone()[0]
-    
-    def currency_exists_in_24HVR_by_Exchange(self, data):
-        select_format = ("SELECT COUNT(1) FROM 24HVR_by_Exchange WHERE Test_unique = %s")
-        self.db_cursor.execute(select_format, (data,))
-        return self.db_cursor.fetchone()[0]
-    
-    def currency_exists_in_24HVR_by_Currency(self, data):
-        select_format = ("SELECT COUNT(1) FROM 24HVR_by_Currency WHERE Test_unique = %s")
-        self.db_cursor.execute(select_format, (data,))
-        return self.db_cursor.fetchone()[0]

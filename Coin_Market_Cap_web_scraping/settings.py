@@ -22,9 +22,3 @@ settings = {
 	"db_name":"CryptoNewsdb"
 }
 
-
-
-1. check existing data
-2. foreign key
-3. time
-'''
